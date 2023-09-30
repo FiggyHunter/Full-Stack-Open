@@ -43,10 +43,17 @@ const App = () => {
 
   return (
     <>
+      <h1>Anecdote of the Day</h1>
       <div>{anecdotes[selected]}</div>
       <div> has {points[selected]} points</div>
       <Button text="Vote" functionRef={addPoints} />
       <Button text="Next Anecdote" functionRef={changeAnedocte} />
+
+      <h1>Anecdote with the most votes</h1>
+      <p>
+        {anecdotes[points.findIndex((point) => point === Math.max(...points))]}{" "}
+        has {Math.max(...points)} points
+      </p>
     </>
   );
 };
