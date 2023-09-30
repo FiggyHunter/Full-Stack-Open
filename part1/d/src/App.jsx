@@ -4,6 +4,17 @@ const Button = ({ text, functionRef }) => {
   return <button onClick={functionRef}> {text} </button>;
 };
 
+const StatisticLine = ({ text, value }) => {
+  return (
+    <tbody>
+      <tr>
+        <td>{text}</td>
+        <td>{value}</td>
+      </tr>
+    </tbody>
+  );
+};
+
 const Stats = ({ good, neutral, bad }) => {
   const total = good + neutral + bad;
   const average = (good * 1 + neutral * 0 + bad * -1) / total || 0;
@@ -14,14 +25,16 @@ const Stats = ({ good, neutral, bad }) => {
       {total !== 0 && (
         <>
           <h2>Statistics</h2>
-          <p>Good {good}</p>
-          <p>Neutral {neutral}</p>
-          <p>Bad {bad}</p>
-          <p>All {total}</p>
-          <p>Average {average}</p>
-          <p>Positive {positive} %</p>
+          <table>
+            <StatisticLine text="good" value={good} />
+            <StatisticLine text="neutral" value={neutral} />
+            <StatisticLine text="bad" value={bad} />
+            <StatisticLine text="all" value={total} />
+            <StatisticLine text="avetage" value={average} />
+            <StatisticLine text="positive" value={positive + " %"} />
+          </table>
         </>
-      )}{" "}
+      )}
       {total === 0 && <p> No feedback given. </p>}
     </>
   );
