@@ -11,13 +11,18 @@ const Stats = ({ good, neutral, bad }) => {
 
   return (
     <>
-      <h2> Statistics </h2>
-      <p>Good {good}</p>
-      <p>Neutral {neutral}</p>
-      <p>Bad {bad}</p>
-      <p>All {total}</p>
-      <p>Average {average}</p>
-      <p>Positive {positive} %</p>
+      {total !== 0 && (
+        <>
+          <h2>Statistics</h2>
+          <p>Good {good}</p>
+          <p>Neutral {neutral}</p>
+          <p>Bad {bad}</p>
+          <p>All {total}</p>
+          <p>Average {average}</p>
+          <p>Positive {positive} %</p>
+        </>
+      )}{" "}
+      {total === 0 && <p> No feedback given. </p>}
     </>
   );
 };
