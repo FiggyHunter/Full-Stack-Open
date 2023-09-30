@@ -14,6 +14,8 @@ const App = () => {
     "The only way to go fast, is to go well.",
   ];
 
+  const [points, setPoints] = useState([1, 4, 6, 3, 4, 7, 8, 9]);
+
   const [selected, setSelected] = useState(
     Math.floor(Math.random() * anecdotes.length)
   );
@@ -31,9 +33,19 @@ const App = () => {
     getRandomAnecdoteIndex();
   };
 
+  const addPoints = () => {
+    setPoints((prevPoints) => {
+      const newPoints = [...prevPoints];
+      newPoints[selected]++;
+      return newPoints;
+    });
+  };
+
   return (
     <>
       <div>{anecdotes[selected]}</div>
+      <div> has {points[selected]} points</div>
+      <Button text="Vote" functionRef={addPoints} />
       <Button text="Next Anecdote" functionRef={changeAnedocte} />
     </>
   );
