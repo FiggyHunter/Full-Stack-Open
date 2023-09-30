@@ -5,12 +5,19 @@ const Button = ({ text, functionRef }) => {
 };
 
 const Stats = ({ good, neutral, bad }) => {
+  const total = good + neutral + bad;
+  const average = (good * 1 + neutral * 0 + bad * -1) / total || 0;
+  const positive = (good / total) * 100 || 0;
+
   return (
     <>
       <h2> Statistics </h2>
       <p>Good {good}</p>
       <p>Neutral {neutral}</p>
       <p>Bad {bad}</p>
+      <p>All {total}</p>
+      <p>Average {average}</p>
+      <p>Positive {positive} %</p>
     </>
   );
 };
