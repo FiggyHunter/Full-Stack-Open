@@ -4,8 +4,17 @@ const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState(""); // meant for controlling the form input element
 
+  const contactExists = () => {
+    if (persons.find((person) => person.name === newName)) return true;
+    return false;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (contactExists()) {
+      window.alert(`${newName} is already added to phonebook!`);
+      return;
+    }
     const newArray = persons.concat({ name: newName });
     setPersons(newArray);
     setNewName("");
