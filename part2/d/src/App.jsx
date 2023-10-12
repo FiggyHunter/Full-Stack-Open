@@ -4,6 +4,7 @@ import PersonForm from "./components/PersonForm.jsx";
 import Filter from "./components/Filter.jsx";
 import Axios from "axios";
 import contactService from "./services/contactService.js";
+import ErrorMessage from "./components/ErrorMessage.jsx";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,6 +12,7 @@ const App = () => {
   const [newPhone, setNewPhone] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentContactId, setCurrentContactId] = useState("");
+  const [errorMessage, setErrorMessage] = useState({ message: "", status: "" });
 
   useEffect(() => {
     contactService.getAllContacts().then((response) => setPersons(response));
@@ -71,11 +73,16 @@ const App = () => {
       number: newPhone,
     };
 
-    contactService
-      .createContact(newObject)
-      .then((response) =>
-        setPersons((prevPersons) => prevPersons.concat(response))
-      );
+    contactService.createContact(newObject).then((response) => {
+      setPersons((prevPersons) => prevPersons.concat(response));
+      setErrorMessage({
+        message: `Added ${response.name} `,
+        status: "success",
+      });
+      setTimeout(() => {
+        setErrorMessage({ message: "", status: "" });
+      }, 3000);
+    });
 
     setNewName("");
     setNewPhone("");
@@ -99,6 +106,12 @@ const App = () => {
 
   return (
     <div>
+      {errorMessage.message !== "" && (
+        <ErrorMessage
+          message={errorMessage.message}
+          status={errorMessage.status}
+        />
+      )}
       <h2>Phonebook</h2>
       <Filter searchTerm={searchTerm} handleSearchTerm={handleSearchTerm} />
       <h2>Add a new contact:</h2>
