@@ -16,8 +16,17 @@ const deleteContact = (id) => {
   return Axios.delete(`${baseURL}/${id}`);
 };
 
+const updateExisting = (id, newObject) => {
+  const request = Axios.put(`${baseURL}/${id}`, newObject);
+  return request.then((response) => {
+    console.log(response.data);
+    return response.data;
+  });
+};
+
 export default {
   getAllContacts,
   createContact,
   deleteContact,
+  updateExisting,
 };

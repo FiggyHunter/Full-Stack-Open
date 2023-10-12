@@ -10,22 +10,62 @@ const App = () => {
   const [newName, setNewName] = useState(""); // meant for controlling the form input element
   const [newPhone, setNewPhone] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentContactId, setCurrentContactId] = useState("");
 
   useEffect(() => {
     contactService.getAllContacts().then((response) => setPersons(response));
   }, []);
 
+  useEffect(() => {
+    if (currentContactId !== "") updateNumber();
+  }, [currentContactId]);
+
   const contactExists = () => {
-    if (persons.find((person) => person.name === newName)) return true;
-    return false;
+    const foundPerson = persons.find((person) => {
+      return person.name === newName;
+    });
+
+    if (foundPerson) {
+      setCurrentContactId(foundPerson.id);
+      return true;
+    } else {
+      setCurrentContactId("");
+      return false;
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (contactExists()) {
-      window.alert(`${newName} is already added to phonebook!`);
+  const updateNumber = () => {
+    if (
+      window.confirm(
+        `${newName} is already added to phonebook, replace the old number with a new one?`
+      )
+    ) {
+      const newObject = {
+        id: currentContactId,
+        name: newName,
+        number: newPhone,
+      };
+
+      contactService
+        .updateExisting(currentContactId, newObject)
+        .then((response) =>
+          setPersons((prevPersons) =>
+            prevPersons.map((person) =>
+              person.id.toString() === currentContactId.toString()
+                ? response
+                : person
+            )
+          )
+        );
+
+      setNewName("");
+      setNewPhone("");
+      setCurrentContactId("");
       return;
     }
+  };
+
+  const createNumber = () => {
     const newObject = {
       name: newName,
       number: newPhone,
@@ -39,6 +79,12 @@ const App = () => {
 
     setNewName("");
     setNewPhone("");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (contactExists()) return;
+    else createNumber();
   };
 
   const handleNameChange = (e) => {
