@@ -129,6 +129,7 @@ const App = () => {
         searchTerm={searchTerm}
         persons={persons}
         setPersons={setPersons}
+        setErrorMessage={setErrorMessage}
       />
     </div>
   );

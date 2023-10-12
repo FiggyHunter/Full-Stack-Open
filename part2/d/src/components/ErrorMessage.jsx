@@ -1,7 +1,6 @@
 import React from "react";
 
 const ErrorMessage = ({ message, status }) => {
-  console.log(status);
   const styles = {
     container: {
       paddingLeft: "1.5rem",
