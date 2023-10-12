@@ -12,7 +12,7 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    contactService.getAll().then((response) => setPersons(response));
+    contactService.getAllContacts().then((response) => setPersons(response));
   }, []);
 
   const contactExists = () => {
@@ -32,7 +32,7 @@ const App = () => {
     };
 
     contactService
-      .create(newObject)
+      .createContact(newObject)
       .then((response) =>
         setPersons((prevPersons) => prevPersons.concat(response))
       );
@@ -66,7 +66,11 @@ const App = () => {
       />
       <h2>Numbers</h2>
 
-      <Persons searchTerm={searchTerm} persons={persons} />
+      <Persons
+        searchTerm={searchTerm}
+        persons={persons}
+        setPersons={setPersons}
+      />
     </div>
   );
 };
