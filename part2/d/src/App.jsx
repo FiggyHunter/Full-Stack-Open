@@ -3,6 +3,7 @@ import Persons from "./components/Persons.jsx";
 import PersonForm from "./components/PersonForm.jsx";
 import Filter from "./components/Filter.jsx";
 import Axios from "axios";
+import contactService from "./services/contactService.js";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,9 +12,7 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/persons").then(({ data }) => {
-      setPersons(data);
-    });
+    contactService.getAll().then((response) => setPersons(response));
   }, []);
 
   const contactExists = () => {
@@ -32,9 +31,11 @@ const App = () => {
       number: newPhone,
     };
 
-    Axios.post("http://localhost:3001/persons", newObject).then((response) => {
-      setPersons(persons.concat(response.data));
-    });
+    contactService
+      .create(newObject)
+      .then((response) =>
+        setPersons((prevPersons) => prevPersons.concat(response))
+      );
 
     setNewName("");
     setNewPhone("");
