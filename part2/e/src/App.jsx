@@ -44,7 +44,16 @@ function App() {
           {displayedCountries.length > 1 &&
             displayedCountries.length < 10 &&
             displayedCountries?.map((country) => (
-              <p key={country.name.common}>{country.name.common}</p>
+              <div key={country.name.common}>
+                <p id="country-name">{country.name.common}</p>
+                <button
+                  onClick={() => {
+                    setCountry(country.name.common);
+                  }}
+                >
+                  Show {country.name.common}
+                </button>
+              </div>
             ))}
 
           {displayedCountries.length === 1 &&
