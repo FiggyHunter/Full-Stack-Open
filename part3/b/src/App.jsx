@@ -73,16 +73,24 @@ const App = () => {
       number: newPhone,
     };
 
-    contactService.createContact(newObject).then((response) => {
-      setPersons((prevPersons) => prevPersons.concat(response));
-      setErrorMessage({
-        message: `Added ${response.name} `,
-        status: "success",
+    contactService
+      .createContact(newObject)
+      .then((response) => {
+        setPersons((prevPersons) => prevPersons.concat(response));
+        setErrorMessage({
+          message: `Added ${response.name} `,
+          status: "success",
+        });
+        setTimeout(() => {
+          setErrorMessage({ message: "", status: "" });
+        }, 3000);
+      })
+      .catch((e) => {
+        setErrorMessage({
+          message: e.response.data.error.message,
+          status: "error",
+        });
       });
-      setTimeout(() => {
-        setErrorMessage({ message: "", status: "" });
-      }, 3000);
-    });
 
     setNewName("");
     setNewPhone("");
