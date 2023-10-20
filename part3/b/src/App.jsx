@@ -22,6 +22,12 @@ const App = () => {
     if (currentContactId !== "") updateNumber();
   }, [currentContactId]);
 
+  const clearErrorMessage = (time) => {
+    setTimeout(() => {
+      setErrorMessage({ message: "", status: "" });
+    }, time);
+  };
+
   const contactExists = () => {
     const foundPerson = persons.find((person) => {
       return person.name === newName;
@@ -81,15 +87,14 @@ const App = () => {
           message: `Added ${response.name} `,
           status: "success",
         });
-        setTimeout(() => {
-          setErrorMessage({ message: "", status: "" });
-        }, 3000);
+        clearErrorMessage(3000);
       })
       .catch((e) => {
         setErrorMessage({
           message: e.response.data.error.message,
           status: "error",
         });
+        clearErrorMessage(3000);
       });
 
     setNewName("");

@@ -1,9 +1,8 @@
 import Axios from "axios";
-const baseURL = "https://fso.leotg.com/api/persons";
+const baseURL = "http://localhost:3037/api/persons";
 
 const getAllContacts = () => {
   const request = Axios.get(baseURL);
-
   return request.then((response) => response.data);
 };
 
